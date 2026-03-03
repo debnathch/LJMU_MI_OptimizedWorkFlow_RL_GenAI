@@ -1,0 +1,12 @@
+gymnasium
+numpy
+torch
+stable-baselines3
+pyyaml
+tensorboard
+pandas
+matplotlib
+seaborn
+fastapi
+uvicorn
+pydantic>=2.0.0

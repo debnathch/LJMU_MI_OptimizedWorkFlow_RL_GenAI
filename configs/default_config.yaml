@@ -1,0 +1,55 @@
+project_name: "Radiology_MARL_Optimization"
+seed: 42
+
+environment:
+  max_steps: 100
+  num_radiologists: 3
+  arrival_rate: 0.5  # Poisson arrival rate lambda
+  urgency_prob: 0.2
+  max_queue_size: 20
+  sla_threshold: 10   # Steps before SLA violation penalty
+  gpu_capacity: 100   # Mock capacity units
+
+simulation:
+  lightweight_cnn:
+    accuracy: 0.85
+    latency: 0.5
+    gpu_cost: 10
+  heavyweight_cnn:
+    accuracy: 0.93
+    latency: 1.5
+    gpu_cost: 30
+
+agents:
+  workflow_agent:
+    learning_rate: 0.0003
+    n_steps: 2048
+    batch_size: 64
+    n_epochs: 10
+    gamma: 0.99
+    ent_coef: 0.01
+
+  model_selection_agent:
+    learning_rate: 0.0003
+    n_steps: 2048
+    batch_size: 64
+    n_epochs: 10
+    gamma: 0.99
+    ent_coef: 0.01
+
+rewards:
+  workflow:
+    urgent_weight: 2.0
+    turnaround_weight: 0.5
+    imbalance_penalty: 0.1
+    sla_penalty: 5.0
+  model:
+    accuracy_weight: 10.0
+    latency_penalty: 1.0
+    gpu_penalty: 0.05
+    urgent_penalty: 3.0
+
+logging:
+  tensorboard_log: "./logs/tensorboard/"
+  csv_log: "./logs/csv/"
+  model_save_path: "./checkpoints/"
